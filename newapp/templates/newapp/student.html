@@ -1,0 +1,71 @@
+{% extends 'newapp/base.html' %}
+{% block body %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center text-success">Class Student Records</h2>
+    <form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="search" name="student_name" class="form-control" placeholder="Search by stdent name" value="{{ request.GET.student_name }}">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+    
+    <ul class="list-group">
+        {% for student in students %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'newapp:detail' student.pk %}" class="text-decoration-none fw-bold text-primary">
+                {{ student.name }} (Age: {{ student.age }})
+            </a>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">No Task found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% if page_obj.has_other_pages %}
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page=1{% if request.GET.student_name %}&student_name={{ request.GET.student_name }}{% endif %}" aria-label="First">
+        First
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.student_name %}&student_name={{ request.GET.student_name }}{% endif %}" aria-label="Previous">
+        Previous
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled"><span class="page-link">First</span></li>
+    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+    {% endif %}
+
+    <li class="page-item disabled">
+      <span class="page-link">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+    </li>
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.student_name %}&student_name={{ request.GET.student_name }}{% endif %}" aria-label="Next">
+        Next
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.student_name %}&student_name={{ request.GET.student_name }}{% endif %}" aria-label="Last">
+        Last
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled"><span class="page-link">Next</span></li>
+    <li class="page-item disabled"><span class="page-link">Last</span></li>
+    {% endif %}
+
+  </ul>
+</nav>
+{% endif %}
+
+
+{% endblock body %}

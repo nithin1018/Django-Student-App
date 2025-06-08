@@ -1,0 +1,41 @@
+{% extends 'newapp/base.html' %}
+{% block body %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-success text-center">Student Details</h2>
+    <div class="card shadow p-3">
+        <div class="row g-4">
+            <!-- Image Section -->
+            <div class="col-md-4 text-center">
+                {% if student.image %}
+                    <img src="{{ student.image }}" class="img-fluid rounded" alt="{{ student.name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/150" class="img-fluid rounded" alt="No Image Available">
+                {% endif %}
+            </div>
+            
+            <!-- Details Section -->
+            <div class="col-md-8">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Name:</strong> {{ student.name }}</li>
+                    <li class="list-group-item"><strong>Age:</strong> {{ student.age }}</li>
+                    <li class="list-group-item"><strong>Hobby:</strong> {{ student.hobby }}</li>
+                    <li class="list-group-item"><strong>Added:</strong> {{ student.user_name }}</li>
+                </ul>
+                <!-- Buttons Section -->
+                <div class="mt-4 d-flex justify-content-start gap-2 flex-wrap">
+                    <a href="{% url 'newapp:student' %}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </a>
+                    <a href="{% url 'newapp:edit' student.pk %}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                    <a href="{% url 'newapp:delete' student.pk %}" class="btn btn-outline-danger btn-sm" >
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
